@@ -1,0 +1,5 @@
+# robots.txt for Dharshan PG
+User-agent: *
+Allow: /
+
+Sitemap: https://dharshanpg.com/sitemap.xml
