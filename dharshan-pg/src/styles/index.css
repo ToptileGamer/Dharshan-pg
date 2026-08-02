@@ -2069,6 +2069,50 @@ input, textarea, select { font-size: 16px; font-family: var(--ff-sans); }
   .room-media { height: 180px; }
 }
 
+/* ══════════ ENTRANCE & REVEAL ANIMATIONS (pure CSS — no JS lib) ══════════ */
+
+/* Hero entrance — runs automatically, no JS required, LCP-friendly */
+@keyframes animUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes animPop {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.anim-up {
+  animation: animUp 0.8s cubic-bezier(0.21, 0.65, 0.36, 1) both;
+  animation-delay: var(--d, 0s);
+}
+
+/* The hero title is the LCP element — give it a near-zero delay */
+.hero-title.anim-up { --d: 0.05s; }
+
+.anim-pop {
+  /* Entrance pop once, then resume the card's floating bob */
+  animation:
+    animPop 0.8s cubic-bezier(0.21, 0.65, 0.36, 1) both,
+    floatCard 6s ease-in-out 0.8s infinite alternate;
+  animation-delay: var(--d, 0s), var(--d, 0s);
+}
+
+/* Scroll reveal — hidden ONLY when JS is present (html.js), so pre-rendered
+   HTML always shows the content for crawlers and fast LCP. */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, 26px));
+  transition:
+    opacity 0.7s cubic-bezier(0.21, 0.65, 0.36, 1) var(--reveal-delay, 0s),
+    transform 0.7s cubic-bezier(0.21, 0.65, 0.36, 1) var(--reveal-delay, 0s);
+}
+
+html.js .reveal.reveal-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ══════════ DARK THEME ══════════ */
 
 [data-theme='dark'] {
